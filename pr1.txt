@@ -1,0 +1,191 @@
+# 1. TensorFlow !pip install tensorflow
+
+import tensorflow as tf 
+print (tf.__version__)
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.datasets import mnist
+
+# Load the MNIST dataset
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+# Normalize the data (scale the pixel values between 0 and 1)
+x_train, x_test = x_train / 255.0, x_test / 255.0
+
+# Define the model architecture
+model = Sequential([
+    Flatten(input_shape=(28, 28)),  
+    Dense(128, activation='relu'),  
+    Dense(10, activation='softmax') 
+])
+
+model.compile(optimizer="sgd",
+ loss="sparse_categorical_crossentropy",
+ metrics=['accuracy'])
+model.summary()
+
+#train the model
+history=model.fit(x_train,
+ y_train,validation_data=(x_test,y_test),epochs=3)
+
+#evaluate model on test data
+test_loss,test_acc=model.evaluate(x_test,y_test)
+print("Loss=%.3f" %test_loss)
+print("Accuracy=%.3f" %test_acc)
+
+import random
+import matplotlib.pyplot as plt
+n=random.randint(0,9999)
+plt.imshow(x_test[n]) 
+plt.show()
+
+# Other Operations in TensorFlow
+
+tensor_from_list = tf.constant([[1, 2], [3, 4]])
+print(tensor_from_list)
+
+random_tensor = tf.random.uniform(shape=(2, 4), minval = 32, maxval = 64)
+print(random_tensor)
+
+zero_tensor = tf.zeros(shape=(2, 3))
+print(zero_tensor)
+
+one_tensor = tf.ones(shape=(2, 3))
+print(one_tensor)
+
+a = tf.constant([[1, 2], [3, 4]])
+b = tf.constant([[5, 6], [7, 8]])
+print(tf.add(a, b))
+print(tf.subtract(a, b))
+print(tf.multiply(a, b))
+print(tf.divide(a, b))
+
+
+# 2. Keras
+
+!pip install keras
+
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Flatten, Conv2D, Dense, MaxPooling2D
+
+model = Sequential([ 
+    Conv2D(32, (3, 3), activation="relu", input_shape=(28, 28, 1)), 
+    MaxPooling2D((2, 2)), 
+    Flatten(), 
+    Dense(100, activation="relu"), Dense(10, activation="softmax") 
+])
+
+
+model.compile( optimizer="sgd", 
+              loss="sparse_categorical_crossentropy", 
+              metrics=["accuracy"]
+             )
+model.summary()
+
+
+model.fit(x_train, y_train, epochs=3)
+
+
+# Other operations in keras
+
+
+import tensorflow as tf
+from tensorflow.keras import backend as k
+import numpy as np
+
+
+tensor_from_list = k.constant([[1, 2], [3, 4]])
+print(tensor_from_list)
+
+
+a = k.constant([[1, 2], [3, 4]])
+b = k.constant([[5, 6], [7, 8]])
+
+print(k.eval(a+b))
+print(k.eval(a-b))
+print(k.eval(a*b))
+print(k.eval(a/b))
+
+
+# 3. Theano
+
+!pip install Theano-PyMC
+
+import theano
+import theano.tensor as T
+import numpy as np
+
+
+import theano
+from theano import tensor
+# Declaring variables
+a = tensor.dscalar('a')
+b = tensor.dscalar('b')
+# Subtracting
+res = a - b
+# Converting it to a callable object
+func = theano.function([a, b], res)
+# Calling function
+func(30.5, 10.5)
+
+
+# Python program showing addition of two
+import numpy
+import theano.tensor as T
+from theano import function
+# Declaring two variables
+x = T.dscalar('x')
+y = T.dscalar('y')
+# Summing up the two numbers
+z = x + y
+# Converting it to a callable object
+f = function([x, y], z)
+f(5, 7)
+
+
+
+# 4. PyTorch
+
+!pip install torch torchvision torchaudio
+
+!pip install torch
+
+import torch
+print(torch.__version__)
+
+
+data = [[1, 2], [3, 4]]
+tensor_from_list = torch.tensor(data)
+print("Tensor from list:\n", tensor_from_list)
+
+random_tensor = torch.rand((2, 3))
+print("Random tensor:\n", random_tensor)
+
+zero_tensor = torch.zeros((2, 3))
+print("Zero tensor:\n", zero_tensor)
+
+ones_tensor = torch.ones((2, 3))
+print("Ones tensor:\n", ones_tensor)
+
+
+
+a = torch.tensor([[1, 2], [3, 4]], dtype=torch.float32)
+b = torch.tensor([[5, 6], [7, 8]], dtype=torch.float32)
+print("Addition:\n", a + b)
+print("Subtraction:\n", a - b)
+print("Multiplication:\n", a * b)
+print("Division:\n", a / b)
+
+
+sqrt_tensor = torch.sqrt(a)
+print("Square root tensor:\n", sqrt_tensor)
+
+exp_tensor = torch.exp(a)
+print("Exponential tensor:\n", exp_tensor)
+
+log_tensor = torch.log(a)
+print("Logarithm tensor:\n", log_tensor)
+
+
+
